@@ -62,7 +62,7 @@ public class EstudianteController {
 	public ResponseEntity<?> getById(@PathVariable("id") int id) {
 		
 		if (!service.existsById(id)) // si no existe el estudiante
-			return new ResponseEntity<Object>(new Mensaje("No existe el usario con id: " + id), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Object>(new Mensaje("No existe el estudiante con id: " + id), HttpStatus.NOT_FOUND);
 
 		Estudiante est = service.findById(id);
 		return new ResponseEntity<Estudiante>(est, HttpStatus.OK);
@@ -72,7 +72,7 @@ public class EstudianteController {
 	public ResponseEntity<?> getByUsername(@PathVariable("username") String username) {
 		
 		if (!service.existsByUsername(username)) // si no existe el estudiante
-			return new ResponseEntity<Object>(new Mensaje("No existe el usuario con el nombre usuario: " + username), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Object>(new Mensaje("No existe el estudiante con el nombre usuario: " + username), HttpStatus.NOT_FOUND);
 
 		Estudiante est = service.findByUsername(username);
 		return new ResponseEntity<Estudiante>(est, HttpStatus.OK);
@@ -89,7 +89,7 @@ public class EstudianteController {
 	}
 
 	@GetMapping("/buscar/apellido/{apellido}")
-	public ResponseEntity<?> getBySesiones(@PathVariable("sesiones") String apellido) {
+	public ResponseEntity<?> getBySesiones(@PathVariable("apellido") String apellido) {
 		
 		if (service.findByApellido(apellido).size() == 0) 
 			return new ResponseEntity<Object>(new Mensaje("No existen estudiantes con el apellido: " + apellido), HttpStatus.NOT_FOUND);
@@ -172,7 +172,7 @@ public class EstudianteController {
 		est.setPassword(estudianteDto.getPassword());
 
 		service.saveEstudiante(est);
-		return new ResponseEntity<Object>(new Mensaje("Datos actualizados correctamente"), HttpStatus.OK);
+		return new ResponseEntity<Object>(new Mensaje("Datos de la cuenta actualizados correctamente, vuelva a iniciar sesión"), HttpStatus.OK);
 	}
 	
 	@PutMapping("/actualizar/datos/{id}")
@@ -196,6 +196,22 @@ public class EstudianteController {
 		
 		service.saveEstudiante(est);
 		return new ResponseEntity<Object>(new Mensaje("Datos actualizados correctamente"), HttpStatus.OK);
+	}
+	
+	@PutMapping("/agregarSaldo/{id}")
+	public ResponseEntity<?> addSaldo(@PathVariable("id") int id, @RequestBody EstudiantePerfilDto estudiantePerfilDto) {
+		
+		if (!service.existsById(id)) // si no existe el estudiante
+			return new ResponseEntity<Object>(new Mensaje("No existe el estudiante con id: " + id),	HttpStatus.NOT_FOUND); //400 
+		
+		if (estudiantePerfilDto.getSaldo() == null || estudiantePerfilDto.getSaldo() < 10)
+			return new ResponseEntity<Object>(new Mensaje("Debes agregar como mínimo 10 de saldo"), HttpStatus.BAD_REQUEST);
+		
+		Estudiante est = service.findById(id);
+		est.setSaldo(estudiantePerfilDto.getSaldo());
+		
+		service.saveEstudiante(est);
+		return new ResponseEntity<Object>(new Mensaje("Se ha agregado " + estudiantePerfilDto.getSaldo() +" de saldo correctamente"), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/eliminar/{id}")

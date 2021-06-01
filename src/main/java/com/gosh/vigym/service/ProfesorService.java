@@ -21,10 +21,14 @@ public interface ProfesorService {
 	//obtener estudiante x id o username
 	Profesor findById(int id);
 	Profesor findByUsername(String username);
+	Profesor findByCorreo(String correo);
 		
 	//busca estudiantes por nombres
 	List<Profesor> findByNombre(String nombre);
 	List<Profesor> findByApellido(String apellido);
+	
+	//LOGIN
+	Profesor findByUsernameAndPassword(String username, String password);
 			
 	//devuelve la entidad estudiante (para insertar o actualizar)
 	Profesor saveProfesor(Profesor profesor);

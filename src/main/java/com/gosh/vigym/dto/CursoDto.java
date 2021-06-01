@@ -17,18 +17,22 @@ public class CursoDto {
 	@Min(5) //minimos 5 alumnos
 	private Integer capacidad;
 	
+	@Min(0)
+	private Integer precio;
+	
 	private Double calorias_perdidas;
 	
 	public CursoDto() {
 		super();
 	}
 	public CursoDto(@NotBlank String nombre, @NotBlank String descripcion, @Min(3) Integer sesiones,
-			@Min(5) Integer capacidad, Double calorias_perdidas) {
+			@Min(5) Integer capacidad, @Min(0) Integer precio, Double calorias_perdidas) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.sesiones = sesiones;
 		this.capacidad = capacidad;
+		this.precio = precio;
 		this.calorias_perdidas = calorias_perdidas;
 	}
 	
@@ -55,6 +59,12 @@ public class CursoDto {
 	}
 	public void setCapacidad(Integer capacidad) {
 		this.capacidad = capacidad;
+	}
+	public Integer getPrecio() {
+		return precio;
+	}
+	public void setPrecio(Integer precio) {
+		this.precio = precio;
 	}
 	public Double getCalorias_perdidas() {
 		return calorias_perdidas;

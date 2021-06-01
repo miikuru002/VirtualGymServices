@@ -122,10 +122,14 @@ public class CursoController {
 		if (cursoDto.getCapacidad() == null || cursoDto.getCapacidad() < 5)
 			return new ResponseEntity<Object>(new Mensaje("El curso debe tener como mínimo 5 personas de capacidad"), HttpStatus.BAD_REQUEST);
 		
+		if (cursoDto.getPrecio() == null || cursoDto.getPrecio() < 0)
+			return new ResponseEntity<Object>(new Mensaje("Debes especificar un precio válido para el curso"), HttpStatus.BAD_REQUEST);
+		
 		if (cursoDto.getCalorias_perdidas() == null || cursoDto.getCalorias_perdidas() < 0)
 			return new ResponseEntity<Object>(new Mensaje("Debes espeficiar cuantas calorías se pierden con este curso"), HttpStatus.BAD_REQUEST);
 
-		Curso cur = new Curso(cursoDto.getNombre(), cursoDto.getDescripcion(), cursoDto.getSesiones(), cursoDto.getCapacidad(),	cursoDto.getCalorias_perdidas());
+		Curso cur = new Curso(cursoDto.getNombre(), cursoDto.getDescripcion(), cursoDto.getSesiones(), 
+							cursoDto.getCapacidad(), cursoDto.getPrecio(), cursoDto.getCalorias_perdidas());
 		service.saveCurso(cur);
 
 		return new ResponseEntity<Object>(new Mensaje("Curso creado correctamente"), HttpStatus.CREATED); // 201
@@ -177,24 +181,44 @@ public class CursoController {
 		return new ResponseEntity<Object>(new Mensaje("Curso eliminado"), HttpStatus.OK);
 	}
 
-	
 	@PutMapping("/matricula/{curso_id}/{estudiante_id}")
-	public Curso matricula(@PathVariable("curso_id") int id_curso, @PathVariable("estudiante_id") int id_estudiante) {
-		//obtiene el curso, oobtiene el estudiante y lo matrcula/inscribe a ese curso y lo guarda
-		Curso curso = service.findById(id_curso);
-		Estudiante estudiante = serviceEst.findById(id_estudiante);
-		curso.matricularEstudiante(estudiante);
+	public ResponseEntity<?> matricula(@PathVariable("curso_id") int id_curso, @PathVariable("estudiante_id") int id_estudiante) {
 		
-		return service.saveCurso(curso);
+		//obtiene los dato del estudiante y dle curso
+		Estudiante estudiante = serviceEst.findById(id_estudiante); 
+		Curso curso = service.findById(id_curso);
+		
+		if (!service.existsById(id_curso))
+			return new ResponseEntity<Object>(new Mensaje("No existe el curso con id: " + id_curso), HttpStatus.NOT_FOUND);
+		
+		if (!serviceEst.existsById(id_estudiante))
+			return new ResponseEntity<Object>(new Mensaje("No existe el estudiante con id: " + id_estudiante), HttpStatus.NOT_FOUND);
+		
+		if (estudiante.getSaldo() < curso.getPrecio())
+			return new ResponseEntity<Object>(new Mensaje("No tienes suficiente saldo para comprar este curso"), HttpStatus.BAD_REQUEST);
+		
+		curso.matricularEstudiante(estudiante);
+		service.saveCurso(curso);
+		
+		return new ResponseEntity<Object>(new Mensaje("Te haz matriculado correctamente al curso: " + curso.getNombre()), HttpStatus.CREATED); // 201
 	}
 	
 	@PutMapping("/asignar/{curso_id}/{profesor_id}")
-	public Curso asignarProfesor(@PathVariable("curso_id") int id_curso, @PathVariable("profesor_id") int id_profesor) {
-		//obtiene el curso, oobtiene el estudiante y lo matrcula/inscribe a ese curso y lo guarda
+	public ResponseEntity<?> asignarProfesor(@PathVariable("curso_id") int id_curso, @PathVariable("profesor_id") int id_profesor) {
+		
+		if (!service.existsById(id_curso))
+			return new ResponseEntity<Object>(new Mensaje("No existe el curso con id: " + id_curso), HttpStatus.NOT_FOUND);
+		
+		if (!servicePro.existsById(id_profesor))
+			return new ResponseEntity<Object>(new Mensaje("No existe el profesor con id: " + id_profesor), HttpStatus.NOT_FOUND);
+		
+		//obtiene el curso, obtiene el profesor y lo asigna a ese curso y lo guarda
 		Curso curso = service.findById(id_curso);
 		Profesor profesor = servicePro.findById(id_profesor);
 		curso.asignarProfesor(profesor);
 		
-		return service.saveCurso(curso);
+		service.saveCurso(curso);
+		
+		return new ResponseEntity<Object>(new Mensaje("Se ha asignado correctamente el profesor al curso"), HttpStatus.CREATED); 
 	}
 }

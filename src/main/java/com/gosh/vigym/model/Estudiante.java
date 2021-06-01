@@ -42,6 +42,7 @@ public class Estudiante {
 	@Column(length = 20)
 	private String password;
 	
+	private int saldo;
 	private int estatura;
 	private double peso;
 	private double imc;
@@ -55,7 +56,7 @@ public class Estudiante {
 		super();
 	}
 	public Estudiante(@NotNull String nombre, @NotNull String apellido, @NotNull String username,
-			@NotNull String correo, @NotNull String password, int estatura, double peso, double imc, 
+			@NotNull String correo, @NotNull String password, int saldo, int estatura, double peso, double imc, 
 			double calorias_perdidas, Set<Curso> cursos) {
 		super();
 		this.nombre = nombre;
@@ -63,6 +64,7 @@ public class Estudiante {
 		this.username = username;
 		this.correo = correo;
 		this.password = password;
+		this.saldo = saldo;
 		this.estatura = estatura;
 		this.peso = peso;
 		this.imc = imc;
@@ -114,6 +116,12 @@ public class Estudiante {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getSaldo() {
+		return saldo;
+	}
+	public void setSaldo(int saldo) {
+		this.saldo = saldo;
 	}
 	public int getEstatura() {
 		return estatura;

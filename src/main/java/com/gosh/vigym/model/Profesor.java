@@ -42,15 +42,15 @@ public class Profesor{
 	@NotNull
 	@Column(length = 20)
 	private String password;
-
-	@NotNull
-	private int edad;
 	
 	@NotNull
 	private String ocupacion;
 	
 	@NotNull
 	private int experiencia;
+	
+	@NotNull
+	private int edad;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "profesor")
@@ -60,17 +60,17 @@ public class Profesor{
 		super();
 	}
 	public Profesor(@NotNull String nombre, @NotNull String apellido, @NotNull String username,
-			@NotNull String correo, @NotNull String password, @NotNull int edad, 
-			@NotNull String ocupacion, @NotNull int experiencia) {
+			@NotNull String correo, @NotNull String password, @NotNull String ocupacion, 
+			@NotNull int experiencia, @NotNull int edad) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.username = username;
 		this.correo = correo;
 		this.password = password;
-		this.edad = edad;
 		this.ocupacion = ocupacion;
 		this.experiencia = experiencia;
+		this.edad = edad;
 	}
 
 	public int getId() {
@@ -109,12 +109,6 @@ public class Profesor{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getEdad() {
-		return edad;
-	}
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
 	public String getOcupacion() {
 		return ocupacion;
 	}
@@ -126,6 +120,12 @@ public class Profesor{
 	}
 	public void setExperiencia(int experiencia) {
 		this.experiencia = experiencia;
+	}
+	public int getEdad() {
+		return edad;
+	}
+	public void setEdad(int edad) {
+		this.edad = edad;
 	}
 	
 	public Set<Curso> getCursos() {

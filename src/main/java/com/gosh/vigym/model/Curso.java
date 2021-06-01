@@ -36,6 +36,9 @@ public class Curso {
 	private int capacidad;
 	
 	@Column(nullable = false)
+	private int precio;
+	
+	@Column(nullable = false)
 	private double calorias_perdidas;
 
 	@ManyToMany
@@ -54,12 +57,13 @@ public class Curso {
 	public Curso() { //constructor vacio para crear solo un objeto
 		super();
 	}
-	public Curso(String nombre, String descripcion, int sesiones, int capacidad, double calorias_perdidas) {
+	public Curso(String nombre, String descripcion, int sesiones, int capacidad, int precio, double calorias_perdidas) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.sesiones = sesiones;
 		this.capacidad = capacidad;
+		this.precio = precio;
 		this.calorias_perdidas = calorias_perdidas;
 	}
 	
@@ -93,6 +97,12 @@ public class Curso {
 	}
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
+	}
+	public int getPrecio() {
+		return precio;
+	}
+	public void setPrecio(int precio) {
+		this.precio = precio;
 	}
 	public double getCalorias_perdidas() {
 		return calorias_perdidas;

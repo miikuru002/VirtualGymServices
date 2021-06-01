@@ -40,6 +40,12 @@ public class ProfesorServiceImpl implements ProfesorService{
 	public Profesor findByUsername(String username) {
 		return repo.findByUsername(username);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Profesor findByCorreo(String correo) {
+		return repo.findByCorreo(correo);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -73,6 +79,12 @@ public class ProfesorServiceImpl implements ProfesorService{
 		return repo.existsByCorreo(correo);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Profesor findByUsernameAndPassword(String username, String password) {
+		return repo.findByUsernameAndPassword(username, password);
+	}
+	
 	@Override
 	@Transactional(readOnly = false) //false porque guarda datos en la BD
 	public Profesor saveProfesor(Profesor profesor) {
