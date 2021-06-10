@@ -208,7 +208,7 @@ public class EstudianteController {
 			return new ResponseEntity<Object>(new Mensaje("Debes agregar como mínimo 10 de saldo"), HttpStatus.BAD_REQUEST);
 		
 		Estudiante est = service.findById(id);
-		est.setSaldo(estudiantePerfilDto.getSaldo());
+		est.setSaldo(est.getSaldo() + estudiantePerfilDto.getSaldo());
 		
 		service.saveEstudiante(est);
 		return new ResponseEntity<Object>(new Mensaje("Se ha agregado " + estudiantePerfilDto.getSaldo() +" de saldo correctamente"), HttpStatus.OK);

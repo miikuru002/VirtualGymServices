@@ -198,6 +198,7 @@ public class CursoController {
 			return new ResponseEntity<Object>(new Mensaje("No tienes suficiente saldo para comprar este curso"), HttpStatus.BAD_REQUEST);
 		
 		curso.matricularEstudiante(estudiante);
+		estudiante.setSaldo(estudiante.getSaldo() - curso.getPrecio());
 		service.saveCurso(curso);
 		
 		return new ResponseEntity<Object>(new Mensaje("Te haz matriculado correctamente al curso: " + curso.getNombre()), HttpStatus.CREATED); // 201

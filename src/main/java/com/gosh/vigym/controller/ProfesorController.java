@@ -130,7 +130,7 @@ public class ProfesorController {
 			return new ResponseEntity<Object>(new Mensaje("Debes tener como mínimo 2 años de experiencia"), HttpStatus.BAD_REQUEST);
 		
 		Profesor pro = new Profesor(profesorDto.getNombre(), profesorDto.getApellido(), profesorDto.getUsername(), 
-				profesorDto.getCorreo(), profesorDto.getPassword(), profesorDto.getOcupacion(), profesorDto.getEdad(), profesorDto.getExperiencia());
+				profesorDto.getCorreo(), profesorDto.getPassword(), profesorDto.getOcupacion(), profesorDto.getExperiencia(), profesorDto.getEdad());
 		service.saveProfesor(pro);
 
 		return new ResponseEntity<Object>(new Mensaje("Registrado correctamente"), HttpStatus.CREATED); // 201
