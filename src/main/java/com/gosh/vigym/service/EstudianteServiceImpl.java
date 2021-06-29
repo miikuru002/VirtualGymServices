@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gosh.vigym.model.Curso;
 import com.gosh.vigym.model.Estudiante;
 import com.gosh.vigym.repository.EstudianteRepository;
 
@@ -95,6 +96,12 @@ public class EstudianteServiceImpl implements EstudianteService {
 	@Transactional(readOnly = false)
 	public void deleteEstudianteById(int id) {
 		repo.deleteById(id);
+	}
+
+	@Override
+	public List matricula(int id_estudiante) {
+		List cursos = repo.matricula(id_estudiante);
+		return cursos;
 	}
 
 }

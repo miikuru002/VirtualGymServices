@@ -27,7 +27,7 @@ public interface CursoService  { //los servicios que hara el api
 	List<Curso> findBySesiones(int sesiones);
 	//obtiene una lista de cursos x capacidad
 	List<Curso> findByCapacidad(int capacidad);
-
+	
 	//devuelve la entidad curso (para insertar o actualizar)
 	Curso saveCurso(Curso curso);
 	//elimina al curso x id

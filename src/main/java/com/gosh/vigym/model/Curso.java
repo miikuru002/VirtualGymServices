@@ -41,9 +41,9 @@ public class Curso {
 	@Column(nullable = false)
 	private double calorias_perdidas;
 
-	@ManyToMany
+	@ManyToMany //muchos a muchos
 	@JoinTable( //crea una nueva tabla
-			name = "matricula",
+			name = "matricula", //aqui se genera la cuarta tabla
 			joinColumns = @JoinColumn(name = "curso_id"),
 			inverseJoinColumns = @JoinColumn(name = "estudiante_id")
 			)

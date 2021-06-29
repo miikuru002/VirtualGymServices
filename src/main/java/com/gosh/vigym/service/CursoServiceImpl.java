@@ -10,12 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gosh.vigym.model.Curso;
 import com.gosh.vigym.repository.CursoRepository;
+import com.gosh.vigym.repository.EstudianteRepository;
 
 @Service
 public class CursoServiceImpl implements CursoService{
 
 	@Autowired //inyectar el repositorio (autoejecuten los metodos del repositorio)
 	CursoRepository repo;
+	@Autowired 
+	EstudianteRepository repoEstudiante;
 
 	@Override
 	@Transactional(readOnly = true) //transaccion de solo lectura, no guarda nada en la BD

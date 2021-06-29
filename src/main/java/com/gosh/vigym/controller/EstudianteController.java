@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gosh.vigym.dto.EstudianteDto;
 import com.gosh.vigym.dto.EstudiantePerfilDto;
 import com.gosh.vigym.dto.Mensaje;
+import com.gosh.vigym.model.Curso;
 import com.gosh.vigym.model.Estudiante;
+import com.gosh.vigym.service.CursoServiceImpl;
 import com.gosh.vigym.service.EstudianteServiceImpl;
 
 @RestController
@@ -33,6 +35,9 @@ public class EstudianteController {
 
 	@Autowired
 	EstudianteServiceImpl service;
+	
+	@Autowired
+	CursoServiceImpl serviceCurso;
 
 	//-----------------------------------[LISTADOS]-----------------------------------
 	@GetMapping("/lista")
@@ -214,6 +219,17 @@ public class EstudianteController {
 		return new ResponseEntity<Object>(new Mensaje("Se ha agregado " + estudiantePerfilDto.getSaldo() +" de saldo correctamente"), HttpStatus.OK);
 	}
 
+	@GetMapping("/cursos/{estudiante_id}")
+	public ResponseEntity<?> matricula_estudiante(@PathVariable("estudiante_id") int id_estudiante) {
+		
+		if (!service.existsById(id_estudiante)) // si no existe el estudiante
+			return new ResponseEntity<Object>(new Mensaje("No existe el estudiante con id: " + id_estudiante), HttpStatus.NOT_FOUND);
+
+			List cursos = service.matricula(id_estudiante);
+			return new ResponseEntity<List<Curso>>(cursos, HttpStatus.OK); // retorna la lista con los nombres
+	}
+	
+	
 	@DeleteMapping("/eliminar/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") int id) {
 		if (!service.existsById(id))

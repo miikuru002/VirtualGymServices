@@ -182,7 +182,7 @@ public class CursoController {
 	}
 
 	@PutMapping("/matricula/{curso_id}/{estudiante_id}")
-	public ResponseEntity<?> matricula(@PathVariable("curso_id") int id_curso, @PathVariable("estudiante_id") int id_estudiante) {
+	public ResponseEntity<?> matricula_estudiante(@PathVariable("curso_id") int id_curso, @PathVariable("estudiante_id") int id_estudiante) {
 		
 		//obtiene los dato del estudiante y dle curso
 		Estudiante estudiante = serviceEst.findById(id_estudiante); 

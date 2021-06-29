@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
+import com.gosh.vigym.model.Curso;
 import com.gosh.vigym.model.Estudiante;
 
 public interface EstudianteService {
@@ -26,6 +28,8 @@ public interface EstudianteService {
 	//busca estudiantes por nombres
 	List<Estudiante> findByNombre(String nombre);
 	List<Estudiante> findByApellido(String apellido);
+	
+	List matricula(@Param("id_estudiante") int id_estudiante);
 		
 	//LOGIN
 	Estudiante findByUsernameAndPassword(String username, String password);
